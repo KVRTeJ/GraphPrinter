@@ -1,31 +1,42 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
+#include <vector>
 #include <string>
 
-enum ProcessorType {
-    x64 = 0,
-    x86
+class Processor {
+public:
+    enum ProcessorType {
+        x64 = 0,
+        x86
+    };
+
+    static const std::vector<std::string> PROCESSOR_TYPE;
+public:
+    virtual ~Processor() = default;
+
+    virtual std::string GetProcessorInfo() {return {};}
 };
 
-static const std::vector<std::string> PROCESSOR_TYPE = {"x64", "x86"};
+const std::vector<std::string> Processor::PROCESSOR_TYPE = {"x64", "x86"};
 
-class IntelProcessor {
+class IntelProcessor : public Processor {
 public:
-    explicit IntelProcessor(std::string version, ProcessorType type, double speed)
+    explicit IntelProcessor(std::string version, Processor::ProcessorType type, double speed)
         : m_version(version), m_type(type), m_speed(speed)
     {}
+    ~IntelProcessor() override = default;
 
     //TODO: get/set
 
-    std::string GetProcessorInfo() {
+    std::string GetProcessorInfo() override {
         return "Processor for " + m_version + ' ' + std::to_string(m_speed) +
-               ' ' + PROCESSOR_TYPE[m_type];
+               ' ' + Processor::PROCESSOR_TYPE[m_type];
     }
 
 private:
     std::string m_version = "";
-    ProcessorType m_type;
+    Processor::ProcessorType m_type;
     double m_speed = 0;
 };
 

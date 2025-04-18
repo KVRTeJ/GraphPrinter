@@ -5,7 +5,7 @@
 
 class Computer {
 public:
-    IntelProcessor* GetProcessor(std::string version, ProcessorType type, double speed)
+    Processor* GetProcessor(std::string version, Processor::ProcessorType type, double speed)
     {
         return new IntelProcessor(version, type, speed);
     }

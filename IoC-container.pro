@@ -8,4 +8,5 @@ SOURCES += \
 
 HEADERS += \
     Computer.h \
+    IOC_Contaner.h \
     Processor.h
