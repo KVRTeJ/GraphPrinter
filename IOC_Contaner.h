@@ -78,14 +78,18 @@ public:
     void RegisterFunctor(
         std::function<std::shared_ptr<TInterface>(std::shared_ptr<TS>... ts)> functor) {
         m_factories[GetTypeID<TInterface>()] = std::make_shared<CFactory<TInterface>>(
-            [ = ] { return functor(GetObject<TS>()...); });
+            [ = ] {
+                return functor(GetObject<TS>()...);
+            });
     }
 
     //Регистрация одного экземпляра объекта
     template<typename TInterface>
     void RegisterInstance(std::shared_ptr<TInterface> t) {
         m_factories[GetTypeID<TInterface>()] = std::make_shared<CFactory<TInterface>>(
-            [ = ] { return t; });
+            [ = ] {
+                return t;
+            });
     }
 
     //Подаем указатель на функцию
