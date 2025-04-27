@@ -27,7 +27,13 @@ public:
     {}
     ~IntelProcessor() override = default;
 
-    //TODO: get/set
+    std::string getVersion() const {return m_version;}
+    Processor::ProcessorType getType() const {return m_type;}
+    double getSpeed() const {return m_speed;}
+
+    void setVersion(const std::string& version) {m_version = version;}
+    void setType(Processor::ProcessorType type) {m_type = type;}
+    void setSpeed(double speed) {m_speed = speed;}
 
     std::string GetProcessorInfo() override {
         return "INTEL Processor for " + m_version + ' ' + std::to_string(m_speed) +
@@ -47,7 +53,13 @@ public:
     {}
     ~AmdProcessor() override = default;
 
-    //TODO: get/set
+    std::string getVersion() const {return m_version;}
+    Processor::ProcessorType getType() const {return m_type;}
+    double getSpeed() const {return m_speed;}
+
+    void setVersion(const std::string& version) {m_version = version;}
+    void setType(Processor::ProcessorType type) {m_type = type;}
+    void setSpeed(double speed) {m_speed = speed;}
 
     std::string GetProcessorInfo() override {
         return "AMD Processor for " + m_version + ' ' + std::to_string(m_speed) +
