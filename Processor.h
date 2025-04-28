@@ -16,6 +16,14 @@ public:
 public:
     virtual ~Processor() = default;
 
+    virtual std::string getVersion() const = 0;
+    virtual Processor::ProcessorType getType() const = 0;
+    virtual double getSpeed() const = 0;
+
+    virtual void setVersion(const std::string& version) = 0;
+    virtual void setType(Processor::ProcessorType type) = 0;
+    virtual void setSpeed(double speed) = 0;
+
     virtual std::string getProcessorInfo() {return {};}
 };
 
@@ -35,13 +43,13 @@ public:
     {}
     ~IntelProcessor() override = default;
 
-    std::string getVersion() const {return m_version;}
-    Processor::ProcessorType getType() const {return m_type;}
-    double getSpeed() const {return m_speed;}
+    std::string getVersion() const override {return m_version;}
+    Processor::ProcessorType getType() const override {return m_type;}
+    double getSpeed() const override {return m_speed;}
 
-    void setVersion(const std::string& version) {m_version = version;}
-    void setType(Processor::ProcessorType type) {m_type = type;}
-    void setSpeed(double speed) {m_speed = speed;}
+    void setVersion(const std::string& version) override {m_version = version;}
+    void setType(Processor::ProcessorType type) override {m_type = type;}
+    void setSpeed(double speed) override {m_speed = speed;}
 
     std::string getProcessorInfo() override {
         return "INTEL Processor for " + m_version + ' ' + std::to_string(m_speed) +
@@ -68,13 +76,13 @@ public:
     {}
     ~AmdProcessor() override = default;
 
-    std::string getVersion() const {return m_version;}
-    Processor::ProcessorType getType() const {return m_type;}
-    double getSpeed() const {return m_speed;}
+    std::string getVersion() const override {return m_version;}
+    Processor::ProcessorType getType() const override {return m_type;}
+    double getSpeed() const override {return m_speed;}
 
-    void setVersion(const std::string& version) {m_version = version;}
-    void setType(Processor::ProcessorType type) {m_type = type;}
-    void setSpeed(double speed) {m_speed = speed;}
+    void setVersion(const std::string& version) override {m_version = version;}
+    void setType(Processor::ProcessorType type) override {m_type = type;}
+    void setSpeed(double speed) override {m_speed = speed;}
 
     std::string getProcessorInfo() override {
         return "AMD Processor for " + m_version + ' ' + std::to_string(m_speed) +

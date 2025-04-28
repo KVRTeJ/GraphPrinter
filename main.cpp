@@ -19,6 +19,15 @@ int main() {
     IOCContainer ioc;
 
     std::cout << "\n\tПример" << std::endl;
+    ioc.RegisterInstance<Processor>(std::make_shared<IntelProcessor>("version 3.1", Processor::ProcessorType::x86, 4.555));
+    Computer comp(ioc.GetObject<Processor>());
+    comp.configure();
+
+    ioc.RegisterInstance<Processor>(std::make_shared<AmdProcessor>("version 3.1", Processor::ProcessorType::x86, 3.111));
+    comp.setProcessor(ioc);
+    comp.configure();
+
+    std::cout << "\n\tПример" << std::endl;
     ioc.RegisterInstance<std::string>(std::make_shared<std::string>("version 2"));
     ioc.RegisterInstance<Processor::ProcessorType>(std::make_shared<Processor::ProcessorType>(Processor::x64));
     ioc.RegisterInstance<double>(std::make_shared<double>(3.111));
@@ -33,16 +42,9 @@ int main() {
     boo->setProcessor(ioc);
     boo->configure();
 
-
     std::cout << "\n\tПример" << std::endl;
-    ioc.RegisterInstance<Processor>(std::make_shared<IntelProcessor>("version 3.1", Processor::ProcessorType::x86, 4.555));
-    Computer comp(ioc.GetObject<Processor>());
-    comp.configure();
-
-    ioc.RegisterInstance<Processor>(std::make_shared<AmdProcessor>("version 3.1", Processor::ProcessorType::x86, 3.111));
-    comp.setProcessor(ioc);
-    comp.configure();
-
-
+    ioc.RegisterFactory<Processor, IntelProcessor, std::string, Processor::ProcessorType, double>();
+    Computer comp3 = ioc.GetObject<Processor>();
+    comp3.configure();
     return 0;
 }
