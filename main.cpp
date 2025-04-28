@@ -3,7 +3,7 @@
 #include "Computer.h"
 
 template <typename ProcType>
-void makeRegister(IOCContainer& ioc) {
+void makeFunctor(IOCContainer& ioc) {
     ioc.RegisterFunctor<Processor, std::string, Processor::ProcessorType, double>(
         std::function<std::shared_ptr<Processor>(std::shared_ptr<std::string>,
                                                  std::shared_ptr<Processor::ProcessorType>,
@@ -32,13 +32,14 @@ int main() {
     ioc.RegisterInstance<Processor::ProcessorType>(std::make_shared<Processor::ProcessorType>(Processor::x64));
     ioc.RegisterInstance<double>(std::make_shared<double>(3.111));
 
-    makeRegister<IntelProcessor>(ioc);
+    makeFunctor<IntelProcessor>(ioc);
 
     ioc.RegisterFactory<Computer, Computer, Processor>();
     auto boo = ioc.GetObject<Computer>();
     boo->configure();
 
-    makeRegister<AmdProcessor>(ioc);
+    makeFunctor<AmdProcessor>(ioc);
+
     boo->setProcessor(ioc);
     boo->configure();
 
