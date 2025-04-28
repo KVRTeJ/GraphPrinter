@@ -5,3 +5,8 @@ CONFIG -= qt
 
 SOURCES += \
         main.cpp
+
+HEADERS += \
+    Computer.h \
+    IOC_Contaner.h \
+    Processor.h
