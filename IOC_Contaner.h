@@ -116,3 +116,5 @@ public:
         RegisterInstance<TInterface>(std::make_shared<TConcrete>(GetObject<TArguments>()...));
     }
 };
+
+int IOCContainer::s_nextTypeId = 1;

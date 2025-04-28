@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory.h>
 
 class Processor {
 public:
@@ -15,15 +16,22 @@ public:
 public:
     virtual ~Processor() = default;
 
-    virtual std::string GetProcessorInfo() {return {};}
+    virtual std::string getProcessorInfo() {return {};}
 };
 
 const std::vector<std::string> Processor::PROCESSOR_TYPE = {"x64", "x86"};
 
 class IntelProcessor : public Processor {
 public:
-    explicit IntelProcessor(std::string version, Processor::ProcessorType type, double speed)
+    IntelProcessor(std::string version = "v1",
+                   Processor::ProcessorType type = x64,
+                   double speed = 1.5)
         : m_version(version), m_type(type), m_speed(speed)
+    {}
+    IntelProcessor(std::shared_ptr<std::string> version,
+                   std::shared_ptr<ProcessorType> type,
+                   std::shared_ptr<double> speed)
+        :m_version(*version), m_type(*type), m_speed(*speed)
     {}
     ~IntelProcessor() override = default;
 
@@ -35,7 +43,7 @@ public:
     void setType(Processor::ProcessorType type) {m_type = type;}
     void setSpeed(double speed) {m_speed = speed;}
 
-    std::string GetProcessorInfo() override {
+    std::string getProcessorInfo() override {
         return "INTEL Processor for " + m_version + ' ' + std::to_string(m_speed) +
                ' ' + Processor::PROCESSOR_TYPE[m_type];
     }
@@ -48,8 +56,15 @@ private:
 
 class AmdProcessor : public Processor {
 public:
-    explicit AmdProcessor(std::string version, Processor::ProcessorType type, double speed)
+    AmdProcessor(std::string version = "v1",
+                 Processor::ProcessorType type = x64,
+                 double speed = 1.5)
         : m_version(version), m_type(type), m_speed(speed)
+    {}
+    AmdProcessor(std::shared_ptr<std::string> version,
+                   std::shared_ptr<ProcessorType> type,
+                   std::shared_ptr<double> speed)
+        :m_version(*version), m_type(*type), m_speed(*speed)
     {}
     ~AmdProcessor() override = default;
 
@@ -61,7 +76,7 @@ public:
     void setType(Processor::ProcessorType type) {m_type = type;}
     void setSpeed(double speed) {m_speed = speed;}
 
-    std::string GetProcessorInfo() override {
+    std::string getProcessorInfo() override {
         return "AMD Processor for " + m_version + ' ' + std::to_string(m_speed) +
                ' ' + Processor::PROCESSOR_TYPE[m_type];
     }
