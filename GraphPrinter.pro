@@ -13,6 +13,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    IParser.h \
     mainwindow.h
 
 # Default rules for deployment.
