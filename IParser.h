@@ -1,7 +1,7 @@
 #ifndef IPARSER_H
 #define IPARSER_H
 
-#include <qstring.h>
+#include <QString>
 
 template<typename DataType>
 class IParser {

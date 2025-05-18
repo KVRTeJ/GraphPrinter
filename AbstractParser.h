@@ -1,7 +1,7 @@
 #ifndef ABSTRACTPARSER_H
 #define ABSTRACTPARSER_H
 
-#include <qvector.h>
+#include <QVector>
 
 #include "IParser.h"
 
