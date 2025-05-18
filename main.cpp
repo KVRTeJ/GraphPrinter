@@ -1,5 +1,10 @@
 #include <iostream>
 
+#include "SqlLiteParser.h"
+
 int main(int argc, char *argv[]) {
-    std::cout << "Here will be parser. . . " << std::endl;
+    SqlLiteParser par;
+
+    par.setFilePath("/Users/dmitriy/Downloads/BLOOD_SUGAR.sqlite");
+    par.parse();
 }
