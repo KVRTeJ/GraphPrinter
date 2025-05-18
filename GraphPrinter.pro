@@ -13,6 +13,7 @@ SOURCES += \
     mainwindow.cpp
 
 HEADERS += \
+    AbstractParser.h \
     IParser.h \
     mainwindow.h
 
