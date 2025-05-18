@@ -2,12 +2,13 @@
 #define ABSTRACTPARSER_H
 
 #include <QVector>
+#include <QDateTime>
 
 #include "IParser.h"
 
 struct Data {
-    double xAxis = 0;
-    double yAxis = 0;
+    QDateTime xAxis {};
+    double yAxis {};
 };
 
 class AbstractParser : public IParser<QVector<Data>> {
