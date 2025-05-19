@@ -16,15 +16,11 @@ public:
 
 class GraphDataExtracter : public IDataExtracter {
 public:
-    static const QList<QString> DATA_FORMAT; //TODO: разделить на 2 части где первая будет с часами, а вторая без,
-// и если получилось преобразовать ко времени с часами ретурн если нет тогда преобразовывать к гоодам
-    // а дальше числа к часам
+    static const QList<QString> DATA_FORMATS;
 public:
     ~GraphDataExtracter() override = default;
 
-    QDateTime extract(const QString& raw) override {
-        return {};
-    }
+    QDateTime extract(const QString& raw) override;
 };
 
 #endif // DATAEXTRACT_H
