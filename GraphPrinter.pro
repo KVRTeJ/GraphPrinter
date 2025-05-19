@@ -14,6 +14,7 @@ SOURCES += \
 
 HEADERS += \
     AbstractParser.h \
+    DataExtract.h \
     IParser.h \
     SqlLiteParser.h
 
