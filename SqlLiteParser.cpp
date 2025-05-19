@@ -30,7 +30,13 @@ bool SqlLiteParser::parse() {
     } else {
         while(query.next()) {
             QString raw = query.value(0).toString();
-            qDebug() << raw;
+
+
+            auto splitData = raw.split(' ', Qt::SkipEmptyParts);
+            // double val = query.value(1).toDouble();
+            QDateTime data = QDateTime::fromString(splitData[0], "dd.MM.yyyy");
+            data = data.addSecs(splitData[1].toInt() * 60);
+            qDebug() << splitData << data;
         }
     }
     dataBase.close();

@@ -5,6 +5,7 @@
 #include <QDateTime>
 
 #include "IParser.h"
+#include "DataExtract.h"
 
 struct Data {
     QDateTime xAxis {};
@@ -20,6 +21,9 @@ public:
     QString getFilePath() const override {return _filePath;}
     void setFilePath(const QString& filePath) override {_filePath = filePath;}
 
+    IDataExtracter* getDataExtracter() const {return _dataExtracter;}
+    void setDataExtracter(IDataExtracter* extracter) {_dataExtracter = extracter;}
+
     QVector<Data> getData() const override {return _data;}
 
 protected:
@@ -27,6 +31,7 @@ protected:
 
 private:
     QString _filePath {""};
+    IDataExtracter* _dataExtracter {nullptr};
 };
 
 #endif // ABSTRACTPARSER_H
