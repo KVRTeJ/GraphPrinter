@@ -23,23 +23,36 @@ bool SqlLiteParser::parse() {
         assert(false); //TODO: убрать это
     }
 
+    QList<Data> parsed;
+
     QSqlQuery query;
     if(!query.exec("SELECT * FROM " + tables.first())) {
         dataBase.close();
         assert(false); //TODO: убрать это
     } else {
         while(query.next()) {
-            QString raw = query.value(0).toString();
+            QString rawData = query.value(0).toString();
+            QDateTime data = getDataExtracter()->extract(rawData);
+            if(!data.isValid()) {
+                assert(false); //TODO: и это
+            }
+            bool ok;
+            double value = query.value(1).toDouble(&ok);
+            if(!ok) {
+                assert(false); //TODO: и это
+            }
 
-
-            auto splitData = raw.split(' ', Qt::SkipEmptyParts);
-            // double val = query.value(1).toDouble();
-            QDateTime data = QDateTime::fromString(splitData[0], "dd.MM.yyyy");
-            data = data.addSecs(splitData[1].toInt() * 60);
-            qDebug() << splitData << data;
+            parsed.push_back({data, value});
         }
     }
     dataBase.close();
+
+    _data = QVector<Data>(parsed.size());
+    int i = 0;
+    for(auto it = parsed.begin(); it != parsed.end(); ++it, ++i) {
+        _data[i] = *it;
+        qDebug() << it->xAxis << it->yAxis;
+    }
 
     return false;
 }
