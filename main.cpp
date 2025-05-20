@@ -8,18 +8,18 @@ int main(int argc, char *argv[]) {
     GraphDataExtracter ext;
     par.setDataExtracter(&ext);
 
-    par.setFilePath("/Users/dmitriy/Downloads/BLOOD_SUGAR.sqlite");
+    par.setFilePath("/Users/dmitriy/data/BLOOD_SUGAR.sqlite");
     par.parse();
 
-    par.setFilePath("/Users/dmitriy/Downloads/TEMPERATURE_NOVOSIB.sqlite");
+    par.setFilePath("/Users/dmitriy/data/TEMPERATURE_NOVOSIB.sqlite");
     par.parse();
 
-    par.setFilePath("/Users/dmitriy/Downloads/PRICES_NATURAL_GAS_USD.sqlite");
+    par.setFilePath("/Users/dmitriy/data/PRICES_NATURAL_GAS_USD.sqlite");
     par.parse();
 
-    par.setFilePath("/Users/dmitriy/Downloads/NORDPOOL_PRICES.sqlite");
+    par.setFilePath("/Users/dmitriy/data/NORDPOOL_PRICES.sqlite");
     par.parse();
 
-    par.setFilePath("/Users/dmitriy/Downloads/HUMIDITY_MOSCOW.sqlite");
+    par.setFilePath("/Users/dmitriy/data/HUMIDITY_MOSCOW.sqlite");
     par.parse();
 }
