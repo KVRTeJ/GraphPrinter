@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     DataExtract.cpp \
+    JsonParser.cpp \
     SqlLiteParser.cpp \
     main.cpp
 
@@ -17,6 +18,7 @@ HEADERS += \
     AbstractParser.h \
     DataExtract.h \
     IParser.h \
+    JsonParser.h \
     SqlLiteParser.h
 
 # Default rules for deployment.
