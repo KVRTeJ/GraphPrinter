@@ -23,7 +23,7 @@ bool SqlLiteParser::parse() {
         assert(false); //TODO: убрать это
     }
 
-    QList<Data> parsed;
+    QList<GraphData> parsed;
 
     QSqlQuery query;
     if(!query.exec("SELECT * FROM " + tables.first())) {
@@ -47,7 +47,7 @@ bool SqlLiteParser::parse() {
     }
     dataBase.close();
 
-    _data = QVector<Data>(parsed.size());
+    _data = QVector<GraphData>(parsed.size());
     int i = 0;
     for(auto it = parsed.begin(); it != parsed.end(); ++it, ++i) {
         _data[i] = *it;

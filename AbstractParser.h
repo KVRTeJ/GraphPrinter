@@ -7,12 +7,12 @@
 #include "IParser.h"
 #include "DataExtract.h"
 
-struct Data {
+struct GraphData {
     QDateTime xAxis {};
     double yAxis {};
 };
 
-class AbstractParser : public IParser<QVector<Data>> {
+class AbstractParser : public IParser<QVector<GraphData>> {
 public:
     AbstractParser(const QString& filePath = "") : _filePath(filePath)
     {}
@@ -24,10 +24,10 @@ public:
     IDataExtracter* getDataExtracter() const {return _dataExtracter;}
     void setDataExtracter(IDataExtracter* extracter) {_dataExtracter = extracter;}
 
-    QVector<Data> getData() const override {return _data;}
+    QVector<GraphData> getData() const override {return _data;}
 
 protected:
-    QVector<Data> _data {};
+    QVector<GraphData> _data {};
 
 private:
     QString _filePath {""};
