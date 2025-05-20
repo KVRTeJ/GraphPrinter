@@ -42,7 +42,8 @@ bool SqlLiteParser::parse() {
                 assert(false); //TODO: и это
             }
 
-            parsed.push_back({data, value});
+            parsed.push_back({data,
+                              value});
         }
     }
     dataBase.close();
@@ -51,7 +52,6 @@ bool SqlLiteParser::parse() {
     int i = 0;
     for(auto it = parsed.begin(); it != parsed.end(); ++it, ++i) {
         _data[i] = *it;
-        qDebug() << it->xAxis << it->yAxis;
     }
 
     return false;
