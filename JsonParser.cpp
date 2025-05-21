@@ -48,7 +48,7 @@ bool JsonParser::parse() {
 
         QDateTime data = getDataExtracter()->extract(innerArray[0].toString());
         if(!data.isValid()) {
-            assert(false); //TODO: и это
+            assert(false); //Invalid data format
         }
         if(!innerArray[1].isDouble()) {
             assert(false); //Not double

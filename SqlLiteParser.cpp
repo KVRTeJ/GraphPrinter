@@ -10,6 +10,8 @@ SqlLiteParser::SqlLiteParser(const QString& filePath)
 {}
 
 bool SqlLiteParser::parse() {
+    //TODO: if !dataExtracter
+
     QSqlDatabase dataBase = QSqlDatabase::addDatabase("QSQLITE");
 
     dataBase.setDatabaseName(getFilePath());

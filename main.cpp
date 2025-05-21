@@ -25,10 +25,22 @@ int main(int argc, char *argv[]) {
     auto sqlData = par.getData();
 
     for(auto it = sqlData.begin(), jt = jsonData.begin(); it != sqlData.end(); ++it, ++jt) {
-        //qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
+        qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
         assert(it->xAxis == jt->xAxis);
         assert(it->yAxis == jt->yAxis);
     }
+
+    qDebug() << "\n=-=-=-=-=-=--=\n\n";
+    jsonData = jPar.getData();
+    sqlData = par.getData();
+
+    for(auto it = sqlData.begin(), jt = jsonData.begin(); it != sqlData.end(); ++it, ++jt) {
+        qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
+        assert(it->xAxis == jt->xAxis);
+        assert(it->yAxis == jt->yAxis);
+    }
+
+    return 1;
 
     par.setFilePath("/Users/dmitriy/data/TEMPERATURE_NOVOSIB.sqlite");
     jPar.setFilePath("/Users/dmitriy/data/TEMPERATURE_NOVOSIB.json");
@@ -39,7 +51,7 @@ int main(int argc, char *argv[]) {
     sqlData = par.getData();
 
     for(auto it = sqlData.begin(), jt = jsonData.begin(); it != sqlData.end(); ++it, ++jt) {
-        //qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
+        qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
     }
 
     par.setFilePath("/Users/dmitriy/data/PRICES_NATURAL_GAS_USD.sqlite");
@@ -51,7 +63,7 @@ int main(int argc, char *argv[]) {
     sqlData = par.getData();
 
     for(auto it = sqlData.begin(), jt = jsonData.begin(); it != sqlData.end(); ++it, ++jt) {
-        //qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
+        qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
         assert(it->xAxis == jt->xAxis);
         assert(it->yAxis == jt->yAxis);
     }
@@ -65,7 +77,7 @@ int main(int argc, char *argv[]) {
     sqlData = par.getData();
 
     for(auto it = sqlData.begin(), jt = jsonData.begin(); it != sqlData.end(); ++it, ++jt) {
-        //qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
+        qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
         assert(it->xAxis == jt->xAxis);
         assert(it->yAxis == jt->yAxis);
     }
@@ -79,7 +91,7 @@ int main(int argc, char *argv[]) {
     sqlData = par.getData();
 
     for(auto it = sqlData.begin(), jt = jsonData.begin(); it != sqlData.end(); ++it, ++jt) {
-        //qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
+        qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
         assert(it->xAxis == jt->xAxis);
         assert(it->yAxis == jt->yAxis);
     }

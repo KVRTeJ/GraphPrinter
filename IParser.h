@@ -13,7 +13,8 @@ public:
 
     virtual bool parse() = 0;
 
-    virtual DataType getData() const = 0;
+    virtual DataType getData() = 0;
+    virtual void getData(DataType& out) = 0;
 };
 
 #endif // IPARSER_H

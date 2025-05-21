@@ -24,7 +24,12 @@ public:
     IDataExtracter* getDataExtracter() const {return _dataExtracter;}
     void setDataExtracter(IDataExtracter* extracter) {_dataExtracter = extracter;}
 
-    QVector<GraphData> getData() const override {return _data;}
+    QVector<GraphData> getData() override {
+        QVector<GraphData> result;
+        getData(result);
+        return result;
+    }
+    void getData(QVector<GraphData>& out) override {std::swap(out, _data);}
 
 protected:
     QVector<GraphData> _data {};
