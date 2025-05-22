@@ -1,11 +1,11 @@
 #ifndef ABSTRACTPARSER_H
 #define ABSTRACTPARSER_H
 
-#include <QVector>
-#include <QDateTime>
-
 #include "IParser.h"
 #include "DataExtract.h"
+
+#include <QVector>
+#include <QDateTime>
 
 struct GraphData {
     QDateTime xAxis {};

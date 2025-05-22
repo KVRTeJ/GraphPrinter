@@ -1,8 +1,8 @@
+#include "JsonParser.h"
+
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonArray>
-
-#include "JsonParser.h"
 
 JsonParser::JsonParser(const QString& filePath)
     : AbstractParser(filePath)

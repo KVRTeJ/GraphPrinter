@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include "IParser.h"
 #include "SqlLiteParser.h"
 #include "JsonParser.h"
 #include "DataExtract.h"
@@ -11,18 +12,20 @@ int main(int argc, char *argv[]) {
 
     JsonParser jPar;
     jPar.setDataExtracter(&ext);
-    jPar.setFilePath("/Users/dmitriy/data/BLOOD_SUGAR.json");
-    jPar.parse();
 
 
     SqlLiteParser par;
     par.setDataExtracter(&ext);
 
+    IParser<QVector<GraphData>>* iJPar = &jPar;
+    iJPar->setFilePath("/Users/dmitriy/data/BLOOD_SUGAR.json");
+    iJPar->parse();
+
     par.setFilePath("/Users/dmitriy/data/BLOOD_SUGAR.sqlite");
     par.parse();
 
-    auto jsonData = jPar.getData();
-    auto sqlData = par.getData();
+    QVector<GraphData> jsonData = iJPar->getData();
+    QVector<GraphData> sqlData = par.getData();
 
     for(auto it = sqlData.begin(), jt = jsonData.begin(); it != sqlData.end(); ++it, ++jt) {
         qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;
@@ -31,8 +34,6 @@ int main(int argc, char *argv[]) {
     }
 
     qDebug() << "\n=-=-=-=-=-=--=\n\n";
-    jsonData = jPar.getData();
-    sqlData = par.getData();
 
     for(auto it = sqlData.begin(), jt = jsonData.begin(); it != sqlData.end(); ++it, ++jt) {
         qDebug() << it->xAxis << jt->xAxis << '\t' << it->yAxis << jt->yAxis;

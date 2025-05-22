@@ -1,9 +1,9 @@
-#include <QtSql>
-
 #include "SqlLiteParser.h"
 
-#include <assert.h>
+#include <QtSql>
 #include <QDebug>
+
+#include <assert.h>
 
 SqlLiteParser::SqlLiteParser(const QString& filePath)
     : AbstractParser(filePath)
