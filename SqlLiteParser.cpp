@@ -10,7 +10,9 @@ SqlLiteParser::SqlLiteParser(const QString& filePath)
 {}
 
 bool SqlLiteParser::parse() {
-    //TODO: if !dataExtracter
+    if(!getDataExtracter()) {
+        assert(false);
+    }
 
     QSqlDatabase dataBase = QSqlDatabase::addDatabase("QSQLITE");
 

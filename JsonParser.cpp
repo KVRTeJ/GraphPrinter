@@ -9,7 +9,9 @@ JsonParser::JsonParser(const QString& filePath)
 {}
 
 bool JsonParser::parse() {
-    //TODO: if !dataExtracter
+    if(!getDataExtracter()) {
+        assert(false);
+    }
 
     QFile file(getFilePath());
 
