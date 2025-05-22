@@ -1,5 +1,4 @@
 #include "ApplicationWindow.h"
-
 #include <QScreen>
 #include <QGuiApplication>
 #include <QComboBox>
@@ -15,12 +14,32 @@
 #include <QSplitter>
 #include <QListWidget>
 #include <QTextEdit>
+#include <QLineEdit>
 
 namespace {
-
 constexpr int ApplicationWidthDefaultValue = 1222;
 constexpr int ApplicationHeightDefaultValue = 777;
+}
 
+SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
+{
+    setWindowTitle("Charts Configuration");
+    setModal(true);
+    resize(400, 300);
+
+    QVBoxLayout *layout = new QVBoxLayout(this);
+
+    layout->addWidget(new QLabel("Setting 1:", this));
+    QLineEdit *setting1 = new QLineEdit(this);
+    layout->addWidget(setting1);
+
+    // OK/Cancel
+    QDialogButtonBox *buttonBox = new QDialogButtonBox(
+        QDialogButtonBox::Ok | QDialogButtonBox::Cancel, this);
+    layout->addWidget(buttonBox);
+
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
 
 ApplicationWindow::ApplicationWindow() {
@@ -31,11 +50,11 @@ ApplicationWindow::ApplicationWindow() {
 
     //элементы на панели инструментов
     QComboBox *comboBox = new QComboBox(this);
-    comboBox->addItems({"Option 1", "Option 2", "Option 3"});
+    comboBox->addItems({"LineSeries", "PieChart"});
 
     QCheckBox *checkBox = new QCheckBox("Check Option", this);
 
-    QPushButton *button = new QPushButton("Action", this);
+    QPushButton *button = new QPushButton("Печать графика", this);
 
     toolBar->addWidget(comboBox);
     toolBar->addWidget(checkBox);
@@ -57,6 +76,16 @@ ApplicationWindow::ApplicationWindow() {
 
     // установил центральный виджет
     setCentralWidget(splitter);
+
+    connect(button, &QPushButton::clicked, this, &ApplicationWindow::showSettingsDialog);
+}
+
+void ApplicationWindow::showSettingsDialog()
+{
+    SettingsDialog dialog(this);
+    if (dialog.exec() == QDialog::Accepted) {
+        // при принятии настроек
+    }
 }
 
 void ApplicationWindow::_setCenterAnchor() {
@@ -67,7 +96,6 @@ void ApplicationWindow::_setCenterAnchor() {
 
     move(x, y);
 }
-
 
 void ApplicationWindow::_setDefaultViewConfiguration() {
     resize(ApplicationWidthDefaultValue,
