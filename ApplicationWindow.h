@@ -5,6 +5,11 @@
 #include <QDialogButtonBox>
 #include <QDialog>
 
+#include <QFileSystemModel>
+#include <QTreeView>
+#include <QTableView>
+
+
 class SettingsDialog : public QDialog
 {
     Q_OBJECT
@@ -24,8 +29,13 @@ private:
 
 private slots:
     void showSettingsDialog();
+    void on_selectionChangedSlot(const QItemSelection &selected, const QItemSelection &deselected);
 
 private:
+    QFileSystemModel *rightPartModel;
+    QFileSystemModel *leftPartModel;
+    QTreeView *treeView;
+    QTableView *tableView;
 };
 
 #endif // APPLICATIONWINDOW_H
