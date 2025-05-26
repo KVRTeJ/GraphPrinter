@@ -26,6 +26,7 @@
 #include <QTableView>
 #include <QHeaderView>
 #include <QStatusBar>
+#include <QFileDialog>
 
 namespace {
 constexpr int ApplicationWidthDefaultValue = 1222;
@@ -67,7 +68,13 @@ ApplicationWindow::ApplicationWindow() {
 
     QPushButton *printGraphButton = new QPushButton("Печать графика", this);
     QPushButton *chartConfigurationButton = new QPushButton("Конфигурация чартов", this);
+    QPushButton *chooseDirecctoryButton = new QPushButton("Выбрать путь", this);
+    QWidget *separator = new QWidget(this);
+    separator->setSizePolicy(
+        QSizePolicy::Expanding, QSizePolicy::Preferred);
 
+    toolBar->addWidget(chooseDirecctoryButton);
+    toolBar->addWidget(separator);
     toolBar->addWidget(comboBox);
     toolBar->addWidget(checkBox);
     toolBar->addWidget(printGraphButton);
@@ -78,48 +85,31 @@ ApplicationWindow::ApplicationWindow() {
 
 
     QString homePath = QDir::homePath();
-    // Определим  файловой системы:
-    leftPartModel =  new QFileSystemModel(this);
-    leftPartModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs);
-    leftPartModel->setRootPath(homePath);
-
-    rightPartModel = new QFileSystemModel(this);
-    rightPartModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
-    rightPartModel->setRootPath("/Users/dmitriy/Downloads");
-
+    model = new QFileSystemModel(this);
+    // rightPartModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
+    //model->setRootPath("/Users/dmitriy/Downloads");
     //Показатьв виде "дерева". Пользуемся готовым видом(TreeView):
-    treeView = new QTreeView();
-    // Устанавливаем модель данных для отображения
-    treeView->setModel(leftPartModel);
-    //Раскрываем все папки первого уровня
-    treeView->expandAll();
-    // Создаем объект "сплиттер(разделитель)"
 
     tableView = new QTableView;
-    tableView->setModel(rightPartModel);
-    QItemSelectionModel *selectionModel = treeView->selectionModel();
-    treeView->header()->resizeSection(0, 200);
+    tableView->setModel(model);
+    tableView->setRootIndex(model->setRootPath(homePath));
 
     // Правый виджет
     QTextEdit *contentWidget = new QTextEdit(splitter);
     contentWidget->setText("This is the content area.\nSelect items from the left menu.");
 
     splitter->addWidget(tableView);
-    splitter->addWidget(treeView);
     splitter->addWidget(contentWidget);
 
     // установил центральный виджет
     setCentralWidget(splitter);
 
+    QItemSelectionModel *selectionModel = tableView->selectionModel();
+
+    connect(chooseDirecctoryButton, &QPushButton::clicked, this, &ApplicationWindow::_showFileDialog);
     connect(chartConfigurationButton, &QPushButton::clicked, this, &ApplicationWindow::showSettingsDialog);
-    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &ApplicationWindow::on_selectionChangedSlot);
-    QItemSelection toggleSelection;
-    //Объявили модельный индекс topLeft
-    QModelIndex topLeft;
-    //Получили индекс из модели
-    topLeft = leftPartModel->index(homePath);
-    toggleSelection.select(topLeft, topLeft);
-    selectionModel->select(toggleSelection, QItemSelectionModel::Toggle);
+
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &ApplicationWindow::_selectionChangedSlot);
 }
 
 void ApplicationWindow::showSettingsDialog()
@@ -128,6 +118,25 @@ void ApplicationWindow::showSettingsDialog()
     if (dialog.exec() == QDialog::Accepted) {
         qDebug() << "принято";
     }
+}
+
+void ApplicationWindow::_showFileDialog() {
+    QFileDialog dlg(this);
+    dlg.setFileMode(QFileDialog::Directory);
+    dlg.setOption(QFileDialog::ShowDirsOnly, true);
+
+    if (dlg.exec() == QDialog::Rejected) {
+        return;
+    }
+
+    const QStringList selected = dlg.selectedFiles();
+    const QString dirPath = selected.first();
+    if (dirPath.isEmpty()) {
+        return;
+    }
+
+    model->setRootPath(dirPath);
+    tableView->setRootIndex(model->index(dirPath));
 }
 
 void ApplicationWindow::_setCenterAnchor() {
@@ -147,33 +156,15 @@ void ApplicationWindow::_setDefaultViewConfiguration() {
     setWindowTitle("Graph printer");
 }
 
-void ApplicationWindow::on_selectionChangedSlot(const QItemSelection &selected, const QItemSelection &deselected)
-{
-    //Q_UNUSED(selected);
-    Q_UNUSED(deselected);
-
-    QModelIndex index = treeView->selectionModel()->currentIndex();
-
+void ApplicationWindow::_selectionChangedSlot(const QItemSelection &selected) {
     QModelIndexList indexs =  selected.indexes();
 
     QString filePath = "";
 
-    // Размещаем информацию в statusbar относительно выделенного модельного индекса
-    /*
-     * Смотрим, сколько индексов было выделено.
-     * В нашем случае выделяем только один, следовательно всегда берем только первый.
-    */
     if (indexs.count() >= 1) {
         QModelIndex ix =  indexs.constFirst();
-        filePath = leftPartModel->filePath(ix);
-        this->statusBar()->showMessage("Выбранный путь : " + leftPartModel->filePath(indexs.constFirst()));
+        filePath = model->filePath(ix);
     }
 
-    /*
-     * Получив выбранные данные из левой части filePath(путь к папке/файлу).
-     * Для представления в правой части устанваливаем корневой индекс относительно filePath.
-     * Табличное представление отображает только файлы, находящиеся в filePath(папки не отображает)
-     */
-    tableView->setRootIndex(rightPartModel->setRootPath(filePath));
-    qDebug() <<filePath;
+    qDebug()<<filePath;
 }

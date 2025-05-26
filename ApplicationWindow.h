@@ -29,12 +29,11 @@ private:
 
 private slots:
     void showSettingsDialog();
-    void on_selectionChangedSlot(const QItemSelection &selected, const QItemSelection &deselected);
+    void _showFileDialog();
+    void _selectionChangedSlot(const QItemSelection &selected);
 
 private:
-    QFileSystemModel *rightPartModel;
-    QFileSystemModel *leftPartModel;
-    QTreeView *treeView;
+    QFileSystemModel *model;
     QTableView *tableView;
 };
 
