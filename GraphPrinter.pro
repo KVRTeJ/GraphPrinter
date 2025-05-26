@@ -12,6 +12,7 @@ SOURCES += \
     ApplicationWindow.cpp \
     DataExtract.cpp \
     JsonParser.cpp \
+    LinePrinter.cpp \
     SqlLiteParser.cpp \
     main.cpp
 
@@ -21,6 +22,7 @@ HEADERS += \
     DataExtract.h \
     IParser.h \
     JsonParser.h \
+    LinePrinter.h \
     SqlLiteParser.h
 
 # Default rules for deployment.
