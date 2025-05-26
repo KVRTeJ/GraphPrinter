@@ -12,7 +12,7 @@ struct GraphData {
     double yAxis {};
 };
 
-class AbstractParser : public IParser<QVector<GraphData>> {
+class AbstractParser : public IParser<QList<GraphData>> {
 public:
     AbstractParser(const QString& filePath = "") : _filePath(filePath)
     {}
@@ -24,15 +24,15 @@ public:
     IDataExtracter* getDataExtracter() const {return _dataExtracter;}
     void setDataExtracter(IDataExtracter* extracter) {_dataExtracter = extracter;}
 
-    QVector<GraphData> getData() override {
-        QVector<GraphData> result;
+    QList<GraphData> getData() override {
+        QList<GraphData> result;
         getData(result);
         return result;
     }
-    void getData(QVector<GraphData>& out) override {std::swap(out, _data);}
+    void getData(QList<GraphData>& out) override {std::swap(out, _data);}
 
 protected:
-    QVector<GraphData> _data {};
+    QList<GraphData> _data {};
 
 private:
     QString _filePath {""};

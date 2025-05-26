@@ -52,11 +52,7 @@ bool SqlLiteParser::parse() {
     }
     dataBase.close();
 
-    _data = QVector<GraphData>(parsed.size());
-    int i = 0;
-    for(auto it = parsed.begin(); it != parsed.end(); ++it, ++i) {
-        _data[i] = *it;
-    }
+    std::swap(_data, parsed);
 
-    return false;
+    return true;
 }
