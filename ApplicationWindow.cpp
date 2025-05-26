@@ -27,10 +27,42 @@
 #include <QHeaderView>
 #include <QStatusBar>
 #include <QFileDialog>
+#include <QSplitter>
+#include <QtCharts/QChart>
+#include <QtCharts/QChartView>
+#include <QtCharts/QStackedBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QChartView>
+#include <QtCharts/QPieSeries>
+#include <QtCharts/QPieSlice>
+#include <QtCharts/QAbstractBarSeries>
+#include <QtCharts/QPercentBarSeries>
+#include <QtCharts/QStackedBarSeries>
+#include <QtCharts/QBarSeries>
+#include <QtCharts/QBarSet>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QSplineSeries>
+#include <QtCharts/QScatterSeries>
+#include <QtCharts/QAreaSeries>
+#include <QtCharts/QLegend>
+#include <QtWidgets/QGridLayout>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QComboBox>
+#include <QtWidgets/QSpinBox>
+#include <QtWidgets/QCheckBox>
+#include <QtWidgets/QGroupBox>
+#include <QtWidgets/QLabel>
+#include <QtCore/QTime>
+#include <QtCharts/QBarCategoryAxis>
+#include <QtCharts/QChartGlobal>
 
 namespace {
 constexpr int ApplicationWidthDefaultValue = 1222;
 constexpr int ApplicationHeightDefaultValue = 777;
+
+constexpr double TreeViewWitdthCoefDefaultValue = 2.4;
+constexpr double ChartViewWitdthCoefDefaultValue = 1.6;
 }
 
 SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
@@ -82,27 +114,67 @@ ApplicationWindow::ApplicationWindow() {
 
     // центральный виджет с разделителем
     QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
-
+    splitter->setChildrenCollapsible(false);
+    splitter->setHandleWidth(5);
 
     QString homePath = QDir::homePath();
     model = new QFileSystemModel(this);
-    // rightPartModel->setFilter(QDir::NoDotAndDotDot | QDir::Files);
-    //model->setRootPath("/Users/dmitriy/Downloads");
-    //Показатьв виде "дерева". Пользуемся готовым видом(TreeView):
+    model->setFilter(QDir::NoDotAndDotDot | QDir::Files);
 
     tableView = new QTableView;
     tableView->setModel(model);
     tableView->setRootIndex(model->setRootPath(homePath));
 
-    // Правый виджет
-    QTextEdit *contentWidget = new QTextEdit(splitter);
-    contentWidget->setText("This is the content area.\nSelect items from the left menu.");
-
     splitter->addWidget(tableView);
-    splitter->addWidget(contentWidget);
 
-    // установил центральный виджет
+
+    QtCharts::QChartView *chartView = nullptr;
+
+    QtCharts::QChart *chartBar = new QtCharts::QChart();
+    chartBar->setTitle("Bar chart"); //Устанавливаем заголовок графика
+
+    QtCharts::QStackedBarSeries *series = new QtCharts::QStackedBarSeries(chartBar); //Работаем с гиcтограммой.
+    // Класс QBarSet представляет один набор столбцов на гистограмме.
+    QtCharts::QBarSet *set = nullptr;
+
+    qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
+
+    for (int i(0); i < 10; i++) {
+
+        set = new QtCharts::QBarSet("Bar set " + QString::number(i));
+        qreal yValue(0);
+
+        for (int j(0); j < 5; j++) {
+            yValue = yValue + (qreal)(qrand() % 121 + j) / (qreal) 10 + j;
+            *set << yValue;
+        }
+
+        series->append(set);
+    }
+
+    chartView = new QtCharts::QChartView(chartBar);
+    chartBar->addSeries(series);
+    chartBar->createDefaultAxes();
+
+
+
+
+
+
+    splitter->addWidget(chartView);
+
+    QList<int> sizes;
+    sizes << width() / TreeViewWitdthCoefDefaultValue << width() / ChartViewWitdthCoefDefaultValue;
+    splitter->setSizes(sizes);
+
+    // Делаем так, чтобы при изменении размера окна пропорции сохранялись
+    splitter->setStretchFactor(0, 1);
+    splitter->setStretchFactor(1, 1);
+
     setCentralWidget(splitter);
+
+
+
 
     QItemSelectionModel *selectionModel = tableView->selectionModel();
 
