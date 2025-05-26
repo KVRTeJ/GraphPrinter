@@ -57,6 +57,8 @@
 #include <QtCharts/QBarCategoryAxis>
 #include <QtCharts/QChartGlobal>
 
+#include "LinePrinter.h"
+
 namespace {
 constexpr int ApplicationWidthDefaultValue = 1222;
 constexpr int ApplicationHeightDefaultValue = 777;
@@ -86,7 +88,7 @@ SettingsDialog::SettingsDialog(QWidget *parent) : QDialog(parent)
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 }
 
-ApplicationWindow::ApplicationWindow() {
+ApplicationWindow::ApplicationWindow(QList<GraphData>* data) {
     _setDefaultViewConfiguration();
 
     QToolBar *toolBar = new QToolBar("Main Toolbar", this);
@@ -130,36 +132,9 @@ ApplicationWindow::ApplicationWindow() {
 
     QtCharts::QChartView *chartView = nullptr;
 
-    QtCharts::QChart *chartBar = new QtCharts::QChart();
-    chartBar->setTitle("Bar chart"); //Устанавливаем заголовок графика
-
-    QtCharts::QStackedBarSeries *series = new QtCharts::QStackedBarSeries(chartBar); //Работаем с гиcтограммой.
-    // Класс QBarSet представляет один набор столбцов на гистограмме.
-    QtCharts::QBarSet *set = nullptr;
-
-    qsrand(QTime(0, 0, 0).secsTo(QTime::currentTime()));
-
-    for (int i(0); i < 10; i++) {
-
-        set = new QtCharts::QBarSet("Bar set " + QString::number(i));
-        qreal yValue(0);
-
-        for (int j(0); j < 5; j++) {
-            yValue = yValue + (qreal)(qrand() % 121 + j) / (qreal) 10 + j;
-            *set << yValue;
-        }
-
-        series->append(set);
-    }
-
-    chartView = new QtCharts::QChartView(chartBar);
-    chartBar->addSeries(series);
-    chartBar->createDefaultAxes();
-
-
-
-
-
+    LinePrinter printer;
+    QChart* chart = printer.get(data);
+    chartView = new QChartView(chart);
 
     splitter->addWidget(chartView);
 

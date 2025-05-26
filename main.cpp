@@ -2,10 +2,30 @@
 
 #include <QApplication>
 
+#include "SqlLiteParser.h"
+#include "DataExtract.h"
+
+#include <QDebug>
+
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    ApplicationWindow w;
+    SqlLiteParser par;
+    GraphDataExtracter ext;
+    par.setDataExtracter(&ext);
+    par.setFilePath("/Users/dmitriy/data/BLOOD_SUGAR.sqlite");
+    par.parse();
+    auto data = par.getData();
+
+    double max = data.begin()->yAxis;
+    double min = data.begin()->yAxis;
+    for(auto it = data.begin(); it != data.end(); ++it) {
+        if (it->yAxis <min) min = it->yAxis;
+        if (it->yAxis > max) max = it->yAxis;
+    }
+
+    qDebug() << max << min;
+    ApplicationWindow w(&data);
     w.show();
     return a.exec();
 }

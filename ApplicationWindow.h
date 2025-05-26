@@ -9,6 +9,7 @@
 #include <QTreeView>
 #include <QTableView>
 
+#include "SqlLiteParser.h"
 
 class SettingsDialog : public QDialog
 {
@@ -21,7 +22,7 @@ public:
 class ApplicationWindow : public QMainWindow {
     Q_OBJECT
 public:
-    ApplicationWindow();
+    ApplicationWindow(QList<GraphData>* data);
 
 private:
     void _setCenterAnchor();
