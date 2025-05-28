@@ -5,6 +5,11 @@
 #include "SqlLiteParser.h"
 #include "DataExtract.h"
 
+#include "LineChartCreator.h"
+#include "AreaChartCreator.h"
+#include "ScatterChartCreator.h"
+#include "SplineChartCreator.h"
+
 #include <QDebug>
 
 int main(int argc, char *argv[]) {
@@ -20,13 +25,29 @@ int main(int argc, char *argv[]) {
     model.setData(par.getData());
     auto data = model.getData();
 
-    double max = data.begin()->yAxis;
-    double min = data.begin()->yAxis;
-    for(auto it = data.begin(); it != data.end(); ++it) {
-        if (it->yAxis <min) min = it->yAxis;
-        if (it->yAxis > max) max = it->yAxis;
-    }
+    LineChartCreator lineChartCreator;
+    auto line = lineChartCreator.create(data);
 
-    qDebug() << max << min;
-    return 0;
+    QtCharts::QChartView* view = new QtCharts::QChartView(line);
+    view->show();
+
+    // AreaChartCreator areaChartCreator;
+    // auto area = areaChartCreator.create(data);
+
+    // view = new QtCharts::QChartView(area);
+    // view->show();
+
+    // ScatterChartCreator scatChartCreator;
+    // auto scat = scatChartCreator.create(data);
+
+    // view = new QtCharts::QChartView(scat);
+    // view->show();
+
+    // SplineChartCreator splineChartCreator;
+    // auto spline = splineChartCreator.create(data);
+
+    // view = new QtCharts::QChartView(spline);
+    // view->show();
+
+    return a.exec();
 }
