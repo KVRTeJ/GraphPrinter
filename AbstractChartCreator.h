@@ -47,8 +47,8 @@ protected:
         axisX->setFormat("dd.MM.yyyy HH:mm");
         axisX->setTitleText("Дата");
         chart->addAxis(axisX, Qt::AlignBottom);
-        series->attachAxis(axisX);
         chart->legend()->hide();
+        series->attachAxis(axisX);
 
         QValueAxis* axisY = new QValueAxis();
         axisY->setTitleText("Значение");
