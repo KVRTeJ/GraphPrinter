@@ -16,13 +16,18 @@ SOURCES += \
     main.cpp
 
 HEADERS += \
+    AbstractChartCreator.h \
     AbstractParser.h \
     ApplicationWindow.h \
+    AreaChartCreator.h \
     DataExtract.h \
     DataModel.h \
+    IChartCreator.h \
     IParser.h \
     JsonParser.h \
     LineChartCreator.h \
+    ScatterChartCreator.h \
+    SplineChartCreator.h \
     SqlLiteParser.h
 
 # Default rules for deployment.
