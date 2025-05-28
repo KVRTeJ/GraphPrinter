@@ -42,14 +42,14 @@ class LinePrinter {
 public:
     LinePrinter() = default;
 
-    QChart* get(QList<GraphData>* _data) {
+    QChart* get(const QList<GraphData>& data) {
+
         QChart* chart = new QChart();
         chart->setTitle("Line chart");
 
         QLineSeries *series = new QLineSeries();
-        for (const auto &point : *_data) {
-            qint64 msecsSinceEpoch = point.xAxis.toMSecsSinceEpoch();
-            series->append(msecsSinceEpoch, point.yAxis);
+        for (auto it = data.begin(); it != data.end(); ++it) {
+            series->append(it->xAxis, it->yAxis);
         }
 
         chart->addSeries(series);
@@ -68,9 +68,6 @@ public:
 
         return chart;
     }
-
-private:
-    // QList<GraphData>* _data = nullptr;
 };
 
 #endif // LINEPRINTER_H

@@ -40,13 +40,15 @@ bool SqlLiteParser::parse() {
             if(!data.isValid()) {
                 assert(false); //TODO: и это
             }
+            qint64 parsetDataTime = data.toMSecsSinceEpoch();
+
             bool ok;
             double value = query.value(1).toDouble(&ok);
             if(!ok) {
                 assert(false); //TODO: и это
             }
 
-            parsed.push_back({data,
+            parsed.push_back({parsetDataTime,
                               value});
         }
     }

@@ -132,9 +132,9 @@ ApplicationWindow::ApplicationWindow(QList<GraphData>* data) {
 
     splitter->addWidget(tableView);
 
-    LinePrinter printer;
-    QChart* chart = printer.get(data);
-    chartView = new QChartView(chart);
+    // LinePrinter printer;
+    // QChart* chart = printer.get(*data);
+    // chartView = new QChartView(chart);
 
     splitter->addWidget(chartView);
 
@@ -146,9 +146,6 @@ ApplicationWindow::ApplicationWindow(QList<GraphData>* data) {
     splitter->setStretchFactor(1, 1);
 
     setCentralWidget(splitter);
-
-
-
 
     QItemSelectionModel *selectionModel = tableView->selectionModel();
 

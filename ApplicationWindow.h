@@ -11,7 +11,7 @@
 #include <QtCharts/QChartGlobal>
 #include <QtCharts/qchartview.h>
 
-#include "SqlLiteParser.h"
+#include "Model.h"
 
 class SettingsDialog : public QDialog
 {

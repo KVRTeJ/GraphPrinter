@@ -15,7 +15,10 @@ int main(int argc, char *argv[]) {
     par.setDataExtracter(&ext);
     par.setFilePath("/Users/dmitriy/data/BLOOD_SUGAR.sqlite");
     par.parse();
-    auto data = par.getData();
+
+    DataModel model;
+    model.setData(par.getData());
+    auto data = model.getData();
 
     double max = data.begin()->yAxis;
     double min = data.begin()->yAxis;
@@ -25,7 +28,8 @@ int main(int argc, char *argv[]) {
     }
 
     qDebug() << max << min;
-    ApplicationWindow w(&data);
-    w.show();
-    return a.exec();
+    ApplicationWindow foo(&data);
+    foo.show();
+
+    return 0;
 }

@@ -52,12 +52,14 @@ bool JsonParser::parse() {
         if(!data.isValid()) {
             assert(false); //Invalid data format
         }
+        qint64 parsetDataTime = data.toMSecsSinceEpoch();
+
         if(!innerArray[1].isDouble()) {
             assert(false); //Not double
         }
         double value = innerArray[1].toDouble();
 
-        parsed.push_back({data,
+        parsed.push_back({parsetDataTime,
                           value});
     }
 

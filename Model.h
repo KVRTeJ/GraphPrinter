@@ -1,0 +1,30 @@
+#ifndef MODEL_H
+#define MODEL_H
+
+#include <QObject>
+
+struct GraphData {
+    qint64 xAxis {};
+    double yAxis {};
+};
+
+class IDataModel {
+public:
+    virtual QList<GraphData> getData() const = 0;
+    virtual void setData(QList<GraphData>&& data) = 0;
+};
+
+class DataModel : QObject, IDataModel {
+    Q_OBJECT
+public:
+    QList<GraphData> getData() const override {return _data;}
+    void setData(QList<GraphData>&& data) override {_data = std::move(data);}
+
+signals:
+    void dataChanged();
+
+private:
+    QList<GraphData> _data;
+};
+
+#endif // MODEL_H

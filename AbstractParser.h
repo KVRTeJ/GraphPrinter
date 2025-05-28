@@ -7,12 +7,7 @@
 #include <QVector>
 #include <QDateTime>
 
-struct GraphData {
-    QDateTime xAxis {};
-    double yAxis {};
-};
-
-class AbstractParser : public IParser<QList<GraphData>> {
+class AbstractParser : public IParser {
 public:
     AbstractParser(const QString& filePath = "") : _filePath(filePath)
     {}

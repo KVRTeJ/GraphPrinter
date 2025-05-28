@@ -1,9 +1,10 @@
 #ifndef IPARSER_H
 #define IPARSER_H
 
+#include "Model.h"
+
 #include <QString>
 
-template<typename DataType>
 class IParser {
 public:
     virtual ~IParser() = default;
@@ -13,8 +14,8 @@ public:
 
     virtual bool parse() = 0;
 
-    virtual DataType getData() = 0;
-    virtual void getData(DataType& out) = 0;
+    virtual QList<GraphData> getData() = 0;
+    virtual void getData(QList<GraphData>& out) = 0;
 };
 
 #endif // IPARSER_H
