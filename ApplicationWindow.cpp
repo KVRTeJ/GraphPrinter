@@ -72,7 +72,8 @@ ApplicationWindow::ApplicationWindow() {
     splitter->addWidget(_chartView);
 
     QList<int> sizes;
-    sizes << width() / TreeViewWitdthCoefDefaultValue << width() / ChartViewWitdthCoefDefaultValue;
+    sizes << width() / TreeViewWitdthCoefDefaultValue
+          << width() / ChartViewWitdthCoefDefaultValue;
     splitter->setSizes(sizes);
 
     splitter->setStretchFactor(0, 1);
@@ -80,11 +81,15 @@ ApplicationWindow::ApplicationWindow() {
 
     setCentralWidget(splitter);
 
-    connect(chooseDirecctoryButton, &QPushButton::clicked, this, &ApplicationWindow::_showFileDialog);
-    connect(checkBox, &QCheckBox::toggled, this, &ApplicationWindow::_bwToggled);
-    connect(printGraphButton, &QPushButton::clicked, this, &ApplicationWindow::_printButtonClicked);
+    connect(chooseDirecctoryButton, &QPushButton::clicked,
+            this, &ApplicationWindow::_showFileDialog);
+    connect(checkBox, &QCheckBox::toggled,
+            this, &ApplicationWindow::_bwToggled);
+    connect(printGraphButton, &QPushButton::clicked,
+            this, &ApplicationWindow::_printButtonClicked);
 
-    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &ApplicationWindow::_selectionChanged);
+    connect(selectionModel, &QItemSelectionModel::selectionChanged,
+            this, &ApplicationWindow::_selectionChanged);
 }
 
 void ApplicationWindow::displayChart(QtCharts::QChart* chart) {
