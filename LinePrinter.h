@@ -55,14 +55,12 @@ public:
         chart->addSeries(series);
         chart->setTitle("График с QDateTime на оси X");
 
-        // Настраиваем ось X (временная)
         QDateTimeAxis *axisX = new QDateTimeAxis();
-        axisX->setFormat("dd.MM.yyyy"); // Формат даты
+        axisX->setFormat("dd.MM.yyyy HH:mm");
         axisX->setTitleText("Дата");
         chart->addAxis(axisX, Qt::AlignBottom);
         series->attachAxis(axisX);
 
-        // Настраиваем ось Y (числовая)
         QValueAxis *axisY = new QValueAxis();
         axisY->setTitleText("Значение");
         chart->addAxis(axisY, Qt::AlignLeft);

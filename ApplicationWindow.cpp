@@ -122,15 +122,15 @@ ApplicationWindow::ApplicationWindow(QList<GraphData>* data) {
     QString homePath = QDir::homePath();
     model = new QFileSystemModel(this);
     model->setFilter(QDir::NoDotAndDotDot | QDir::Files);
+    QStringList filters {"*.json", "*.sqlite"};
+    model->setNameFilters(filters);
+    model->setNameFilterDisables(false);
 
     tableView = new QTableView;
     tableView->setModel(model);
     tableView->setRootIndex(model->setRootPath(homePath));
 
     splitter->addWidget(tableView);
-
-
-    QtCharts::QChartView *chartView = nullptr;
 
     LinePrinter printer;
     QChart* chart = printer.get(data);
@@ -142,7 +142,6 @@ ApplicationWindow::ApplicationWindow(QList<GraphData>* data) {
     sizes << width() / TreeViewWitdthCoefDefaultValue << width() / ChartViewWitdthCoefDefaultValue;
     splitter->setSizes(sizes);
 
-    // Делаем так, чтобы при изменении размера окна пропорции сохранялись
     splitter->setStretchFactor(0, 1);
     splitter->setStretchFactor(1, 1);
 

@@ -8,6 +8,8 @@
 #include <QFileSystemModel>
 #include <QTreeView>
 #include <QTableView>
+#include <QtCharts/QChartGlobal>
+#include <QtCharts/qchartview.h>
 
 #include "SqlLiteParser.h"
 
@@ -36,6 +38,7 @@ private slots:
 private:
     QFileSystemModel *model;
     QTableView *tableView;
+    QtCharts::QChartView *chartView = nullptr;
 };
 
 #endif // APPLICATIONWINDOW_H
