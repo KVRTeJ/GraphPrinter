@@ -31,23 +31,23 @@ int main(int argc, char *argv[]) {
     QtCharts::QChartView* view = new QtCharts::QChartView(line);
     view->show();
 
-    // AreaChartCreator areaChartCreator;
-    // auto area = areaChartCreator.create(data);
+    AreaChartCreator areaChartCreator;
+    auto area = areaChartCreator.create(data);
 
-    // view = new QtCharts::QChartView(area);
-    // view->show();
+    view = new QtCharts::QChartView(area);
+    view->show();
 
-    // ScatterChartCreator scatChartCreator;
-    // auto scat = scatChartCreator.create(data);
+    ScatterChartCreator scatChartCreator;
+    auto scat = scatChartCreator.create(data);
 
-    // view = new QtCharts::QChartView(scat);
-    // view->show();
+    view = new QtCharts::QChartView(scat);
+    view->show();
 
-    // SplineChartCreator splineChartCreator;
-    // auto spline = splineChartCreator.create(data);
+    SplineChartCreator splineChartCreator;
+    auto spline = splineChartCreator.create(data);
 
-    // view = new QtCharts::QChartView(spline);
-    // view->show();
+    view = new QtCharts::QChartView(spline);
+    view->show();
 
     return a.exec();
 }
