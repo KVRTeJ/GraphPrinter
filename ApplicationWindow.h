@@ -11,7 +11,7 @@
 #include <QtCharts/QChartGlobal>
 #include <QtCharts/qchartview.h>
 
-#include "Model.h"
+#include "DataModel.h"
 
 class SettingsDialog : public QDialog
 {

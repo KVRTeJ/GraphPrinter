@@ -1,7 +1,7 @@
 #ifndef IPARSER_H
 #define IPARSER_H
 
-#include "Model.h"
+#include "DataModel.h"
 
 #include <QString>
 

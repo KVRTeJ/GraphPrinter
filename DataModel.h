@@ -1,5 +1,5 @@
-#ifndef MODEL_H
-#define MODEL_H
+#ifndef DATAMODEL_H
+#define DATAMODEL_H
 
 #include <QObject>
 
@@ -18,7 +18,7 @@ class DataModel : QObject, IDataModel {
     Q_OBJECT
 public:
     QList<GraphData> getData() const override {return _data;}
-    void setData(QList<GraphData>&& data) override {_data = std::move(data);}
+    void setData(QList<GraphData>&& data) override {_data = data;}
 
 signals:
     void dataChanged();
@@ -27,4 +27,4 @@ private:
     QList<GraphData> _data;
 };
 
-#endif // MODEL_H
+#endif // DATAMODEL_H

@@ -20,10 +20,10 @@ HEADERS += \
     AbstractParser.h \
     ApplicationWindow.h \
     DataExtract.h \
+    DataModel.h \
     IParser.h \
     JsonParser.h \
     LinePrinter.h \
-    Model.h \
     SqlLiteParser.h
 
 # Default rules for deployment.

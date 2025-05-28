@@ -28,8 +28,5 @@ int main(int argc, char *argv[]) {
     }
 
     qDebug() << max << min;
-    ApplicationWindow foo(&data);
-    foo.show();
-
     return 0;
 }
