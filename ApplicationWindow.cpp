@@ -33,9 +33,12 @@ ApplicationWindow::ApplicationWindow() {
     addToolBar(toolBar);
 
     QComboBox *comboBox = new QComboBox(this);
-    comboBox->addItems({"LineSeries", "PieChart"});
+    comboBox->addItems({"Area chart",
+                        "Line chart",
+                        "Spline chart",
+                        "Scatter chart"});
 
-    QCheckBox *checkBox = new QCheckBox("Check Option", this);
+    QCheckBox *checkBox = new QCheckBox("Ч/Б", this);
     QPushButton *printGraphButton = new QPushButton("Печать графика", this);
     QPushButton *chooseDirecctoryButton = new QPushButton("Выбрать путь", this);
     QWidget *separator = new QWidget(this);
@@ -80,7 +83,8 @@ ApplicationWindow::ApplicationWindow() {
     QItemSelectionModel *selectionModel = _tableView->selectionModel();
 
     connect(chooseDirecctoryButton, &QPushButton::clicked, this, &ApplicationWindow::_showFileDialog);
-
+    connect(checkBox, &QCheckBox::toggled, this, &ApplicationWindow::_bwToggled);
+    connect(printGraphButton, &QPushButton::clicked, this, &ApplicationWindow::_printButtonClicked);
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &ApplicationWindow::_selectionChanged);
 }
 
