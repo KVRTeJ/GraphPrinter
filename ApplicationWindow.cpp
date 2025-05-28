@@ -59,6 +59,8 @@
 
 #include "LineChartCreator.h"
 
+static const QStringList FILE_MODEL_FILTERS {"*.json", "*.sqlite"};
+
 namespace {
 constexpr int ApplicationWidthDefaultValue = 1222;
 constexpr int ApplicationHeightDefaultValue = 777;
@@ -73,17 +75,14 @@ ApplicationWindow::ApplicationWindow() {
     QToolBar *toolBar = new QToolBar("Main Toolbar", this);
     addToolBar(toolBar);
 
-    //элементы на панели инструментов
     QComboBox *comboBox = new QComboBox(this);
     comboBox->addItems({"LineSeries", "PieChart"});
 
     QCheckBox *checkBox = new QCheckBox("Check Option", this);
-
     QPushButton *printGraphButton = new QPushButton("Печать графика", this);
     QPushButton *chooseDirecctoryButton = new QPushButton("Выбрать путь", this);
     QWidget *separator = new QWidget(this);
-    separator->setSizePolicy(
-        QSizePolicy::Expanding, QSizePolicy::Preferred);
+    separator->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 
     toolBar->addWidget(chooseDirecctoryButton);
     toolBar->addWidget(separator);
@@ -91,23 +90,25 @@ ApplicationWindow::ApplicationWindow() {
     toolBar->addWidget(checkBox);
     toolBar->addWidget(printGraphButton);
 
-    // центральный виджет с разделителем
     QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
     splitter->setChildrenCollapsible(false);
     splitter->setHandleWidth(5);
 
     QString homePath = QDir::homePath();
-    model = new QFileSystemModel(this);
-    model->setFilter(QDir::NoDotAndDotDot | QDir::Files);
-    QStringList filters {"*.json", "*.sqlite"};
-    model->setNameFilters(filters);
-    model->setNameFilterDisables(false);
+    _model = new QFileSystemModel(this);
+    _model->setFilter(QDir::NoDotAndDotDot | QDir::Files);
+    _model->setNameFilters(FILE_MODEL_FILTERS);
+    _model->setNameFilterDisables(false);
 
-    tableView = new QTableView;
-    tableView->setModel(model);
-    tableView->setRootIndex(model->setRootPath(homePath));
+    _tableView = new QTableView;
+    _tableView->setModel(_model);
+    _tableView->setRootIndex(_model->setRootPath(homePath));
 
-    splitter->addWidget(tableView);
+    splitter->addWidget(_tableView);
+
+    _chartView = new QtCharts::QChartView();
+
+    splitter->addWidget(_chartView);
 
     QList<int> sizes;
     sizes << width() / TreeViewWitdthCoefDefaultValue << width() / ChartViewWitdthCoefDefaultValue;
@@ -118,11 +119,20 @@ ApplicationWindow::ApplicationWindow() {
 
     setCentralWidget(splitter);
 
-    QItemSelectionModel *selectionModel = tableView->selectionModel();
+
+    QItemSelectionModel *selectionModel = _tableView->selectionModel();
 
     connect(chooseDirecctoryButton, &QPushButton::clicked, this, &ApplicationWindow::_showFileDialog);
 
-    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &ApplicationWindow::_selectionChangedSlot);
+    connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &ApplicationWindow::_selectionChanged);
+}
+
+void ApplicationWindow::displayChart(QtCharts::QChart* chart) {
+    _chartView->setChart(chart);
+}
+
+void ApplicationWindow::cleanChart() {
+    _chartView->setChart(nullptr);
 }
 
 void ApplicationWindow::_showFileDialog() {
@@ -140,8 +150,8 @@ void ApplicationWindow::_showFileDialog() {
         return;
     }
 
-    model->setRootPath(dirPath);
-    tableView->setRootIndex(model->index(dirPath));
+    _model->setRootPath(dirPath);
+    _tableView->setRootIndex(_model->index(dirPath));
 }
 
 void ApplicationWindow::_setCenterAnchor() {
@@ -161,15 +171,18 @@ void ApplicationWindow::_setDefaultViewConfiguration() {
     setWindowTitle("Graph printer");
 }
 
-void ApplicationWindow::_selectionChangedSlot(const QItemSelection &selected) {
+void ApplicationWindow::_selectionChanged(const QItemSelection &selected) {
     QModelIndexList indexs =  selected.indexes();
 
     QString filePath = "";
 
     if (indexs.count() >= 1) {
         QModelIndex ix =  indexs.constFirst();
-        filePath = model->filePath(ix);
+        filePath = _model->filePath(ix);
     }
 
-    qDebug()<<filePath;
+    if(filePath != "") {
+        qDebug()<<filePath;
+        emit fileSelected(filePath);
+    }
 }

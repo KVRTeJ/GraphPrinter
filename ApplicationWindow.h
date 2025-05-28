@@ -1,35 +1,39 @@
 #ifndef APPLICATIONWINDOW_H
 #define APPLICATIONWINDOW_H
 
+#include "IChartView.h"
+
 #include <QMainWindow>
-#include <QDialogButtonBox>
-#include <QDialog>
-
 #include <QFileSystemModel>
-#include <QTreeView>
 #include <QTableView>
-#include <QtCharts/QChartGlobal>
-#include <QtCharts/qchartview.h>
+#include <QtCharts/QChartView>
 
-#include "DataModel.h"
-
-class ApplicationWindow : public QMainWindow {
+class ApplicationWindow : public QMainWindow, public IChartView {
     Q_OBJECT
 public:
+    static const QStringList filters;
+public:
     ApplicationWindow();
+
+    void displayChart(QtCharts::QChart* chart) override;
+    void cleanChart() override;
 
 private:
     void _setCenterAnchor();
     void _setDefaultViewConfiguration();
 
+signals:
+    void fileSelected(const QString& filePath);
+    void chartsTypeModified(); //TODO
+
 private slots:
     void _showFileDialog();
-    void _selectionChangedSlot(const QItemSelection &selected);
+    void _selectionChanged(const QItemSelection &selected);
 
 private:
-    QFileSystemModel *model = nullptr;
-    QTableView *tableView = nullptr;
-    QtCharts::QChartView *chartView = nullptr;
+    QFileSystemModel *_model = nullptr;
+    QTableView *_tableView = nullptr;
+    QtCharts::QChartView *_chartView = nullptr;
 };
 
 #endif // APPLICATIONWINDOW_H
