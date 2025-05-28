@@ -4,34 +4,31 @@
 
 #include <QDebug>
 
-#include "SqlLiteParser.h"
 #include "DataExtract.h"
-
-#include "LineChartCreator.h"
-#include "AreaChartCreator.h"
-#include "ScatterChartCreator.h"
-#include "SplineChartCreator.h"
+#include "MainController.h"
+#include "DependencyInversion.h"
 
 int main(int argc, char *argv[]) {
     QApplication a(argc, argv);
 
-    SqlLiteParser par;
-    GraphDataExtracter ext;
-    par.setDataExtracter(&ext);
-    par.setFilePath("/Users/dmitriy/data/BLOOD_SUGAR.sqlite");
-    par.parse();
+    GraphDataExtracter extracter;
+    DataModel dataModel;
+    ApplicationWindow mainWindow;
 
-    DataModel model;
-    model.setData(par.getData());
-    auto data = model.getData();
-    LineChartCreator lineChartCreator;
+    DIConfiguration::configure();
 
-    auto line = lineChartCreator.create(data);
+    MainController* controller = &MainController::instance();
+    controller->setDataExtracter(&extracter);
+    controller->setDataModel(&dataModel);
+    controller->setView(&mainWindow);
 
-    ApplicationWindow w;
+    mainWindow.show();
 
-    w.displayChart(line);
-    w.show();
+    QObject::connect(&mainWindow, &ApplicationWindow::fileSelected,
+                     controller, &MainController::onFileSelected);
+
+    QObject::connect(&dataModel, &DataModel::dataChanged,
+                     controller, &MainController::onDataChanged);
 
     return a.exec();
 }

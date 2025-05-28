@@ -11,7 +11,9 @@ CONFIG += c++17
 SOURCES += \
     ApplicationWindow.cpp \
     DataExtract.cpp \
+    IOC_Container.cpp \
     JsonParser.cpp \
+    MainController.cpp \
     SqlLiteParser.cpp \
     main.cpp
 
@@ -22,11 +24,14 @@ HEADERS += \
     AreaChartCreator.h \
     DataExtract.h \
     DataModel.h \
+    DependencyInversion.h \
     IChartCreator.h \
     IChartView.h \
+    IOC_Contaner.h \
     IParser.h \
     JsonParser.h \
     LineChartCreator.h \
+    MainController.h \
     ScatterChartCreator.h \
     SplineChartCreator.h \
     SqlLiteParser.h

@@ -4,32 +4,25 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 
-JsonParser::JsonParser(const QString& filePath)
-    : AbstractParser(filePath)
-{}
-
 bool JsonParser::parse() {
     if(!getDataExtracter()) {
-        assert(false);
+        throw std::runtime_error("JsonParser: _dataExtracter cant be nullptr");
+        return false;
     }
 
     QFile file(getFilePath());
 
     if (!file.open(QIODevice::ReadOnly)) {
-        assert(false);
         return false;
     }
 
     QJsonParseError parseError;
     QJsonDocument jsonDoc = QJsonDocument::fromJson(file.readAll(), &parseError);
     if (parseError.error != QJsonParseError::NoError) {
-        qDebug() << parseError.errorString();
-        assert(false);
         return false;
     }
 
     if (!jsonDoc.isArray()) {
-        assert(false); //Root is not an array
         return false;
     }
 
@@ -38,24 +31,22 @@ bool JsonParser::parse() {
     QJsonArray rootArray = jsonDoc.array();
     for (auto it = rootArray.begin(); it != rootArray.end(); ++it) {
         if (!it->isArray()) {
-            assert(false); //Invalid entry format - expected array
-            continue;
+            return false;
         }
 
         QJsonArray innerArray = it->toArray();
         if (innerArray.size() != 2) {
-            assert(false); //Invalid entry size - expected 2 elements
-            continue;
+            return false;
         }
 
         QDateTime data = getDataExtracter()->extract(innerArray[0].toString());
         if(!data.isValid()) {
-            assert(false); //Invalid data format
+            return false;
         }
         qint64 parsetDataTime = data.toMSecsSinceEpoch();
 
         if(!innerArray[1].isDouble()) {
-            assert(false); //Not double
+            return false;
         }
         double value = innerArray[1].toDouble();
 

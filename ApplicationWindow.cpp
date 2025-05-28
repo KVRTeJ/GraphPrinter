@@ -15,6 +15,7 @@
 #include <QtCharts/QChart>
 #include <QtCharts/QChartView>
 #include <QDebug>
+#include <QStatusBar>
 
 const QStringList ApplicationWindow::FILE_MODEL_FILTERS {"*.json", "*.sqlite"};
 
@@ -31,6 +32,8 @@ ApplicationWindow::ApplicationWindow() {
 
     QToolBar *toolBar = new QToolBar("Main Toolbar", this);
     addToolBar(toolBar);
+
+    statusBar()->showMessage("Ready", 2000);
 
     QComboBox *comboBox = new QComboBox(this);
     comboBox->addItems({"Area chart",
@@ -93,11 +96,29 @@ ApplicationWindow::ApplicationWindow() {
 }
 
 void ApplicationWindow::displayChart(QtCharts::QChart* chart) {
+    if(!chart)
+        return;
+
+    if (_chart) {
+        _chartView->setChart(nullptr);
+        delete _chart;
+    }
+
+    _chart = chart;
     _chartView->setChart(chart);
+
+    showStatus("График успешно обновлен");
 }
 
 void ApplicationWindow::cleanChart() {
+    if (!_chart)
+        return;
+
     _chartView->setChart(nullptr);
+    delete _chart;
+    _chart = nullptr;
+
+    showStatus("График очищен");
 }
 
 void ApplicationWindow::_showFileDialog() {
@@ -147,7 +168,6 @@ void ApplicationWindow::_selectionChanged(const QItemSelection &selected) {
     }
 
     if(filePath != "") {
-        qDebug()<<filePath;
         emit fileSelected(filePath);
     }
 }

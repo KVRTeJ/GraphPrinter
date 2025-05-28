@@ -14,11 +14,14 @@ public:
     virtual void setData(QList<GraphData>&& data) = 0;
 };
 
-class DataModel : QObject, IDataModel {
+class DataModel : public QObject, public IDataModel {
     Q_OBJECT
 public:
     QList<GraphData> getData() const override {return _data;}
-    void setData(QList<GraphData>&& data) override {_data = data;}
+    void setData(QList<GraphData>&& data) override {
+        _data = data;
+        emit dataChanged();
+    }
 
 signals:
     void dataChanged();

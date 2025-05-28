@@ -9,6 +9,8 @@
 #include <QtCharts/QChartView>
 #include <QtGui/qpdfwriter.h>
 #include <QFileDialog>
+#include <QDebug>
+#include <QStatusBar>
 
 class ApplicationWindow : public QMainWindow, public IChartView {
     Q_OBJECT
@@ -21,17 +23,31 @@ public:
     void displayChart(QtCharts::QChart* chart) override;
     void cleanChart() override;
 
+    void showError(const QString& message) override {
+        statusBar()->showMessage("Ошибка: " + message, 5000);
+        qDebug() << "Ошибка:" << message;
+    }
+
+    void showStatus(const QString& message) override {
+        statusBar()->showMessage(message, 3000);
+        qDebug() << "Статус:" << message;
+    }
+
 signals:
     void fileSelected(const QString& filePath);
-    void recreateChart();
+
     void chartsTypeModified(); //TODO
+
+    void redisplayChart();
+    void chartRectrated();
+    void chartCleaned();
 
 private slots:
     void _showFileDialog();
     void _selectionChanged(const QItemSelection &selected);
     void _bwToggled(bool checked) {
         if(!checked)
-            emit recreateChart();
+            emit redisplayChart();
 
         _chartView->chart()->setTheme(QtCharts::QChart::ChartThemeHighContrast);
         if (auto *xAxis = _chartView->chart()->axes(Qt::Horizontal).value(0)) {
@@ -61,6 +77,7 @@ private:
     QFileSystemModel *_model = nullptr;
     QTableView *_tableView = nullptr;
     QtCharts::QChartView *_chartView = nullptr;
+    QtCharts::QChart* _chart = nullptr;
 };
 
 #endif // APPLICATIONWINDOW_H

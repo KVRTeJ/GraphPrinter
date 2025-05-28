@@ -5,7 +5,9 @@
 
 class JsonParser : public AbstractParser {
 public:
-    JsonParser(const QString& filePath = "");
+    JsonParser(const QString& filePath = "", IDataExtracter* extracter = nullptr)
+        : AbstractParser(filePath, extracter)
+    {}
     ~JsonParser() override = default;
 
     bool parse() override;

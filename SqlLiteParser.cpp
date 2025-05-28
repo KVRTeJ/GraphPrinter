@@ -3,28 +3,23 @@
 #include <QtSql>
 #include <QDebug>
 
-#include <assert.h>
-
-SqlLiteParser::SqlLiteParser(const QString& filePath)
-    : AbstractParser(filePath)
-{}
-
 bool SqlLiteParser::parse() {
     if(!getDataExtracter()) {
-        assert(false);
+        throw std::runtime_error("JsonParser: _dataExtracter cant be nullptr");
+        return false;
     }
 
     QSqlDatabase dataBase = QSqlDatabase::addDatabase("QSQLITE");
 
     dataBase.setDatabaseName(getFilePath());
     if(!dataBase.open()) {
-        assert(false); //TODO: убрать это
+        return false;
     }
 
     auto tables = dataBase.tables();
     if(tables.isEmpty()) {
         dataBase.close();
-        assert(false); //TODO: убрать это
+        return false;
     }
 
     QList<GraphData> parsed;
@@ -32,20 +27,20 @@ bool SqlLiteParser::parse() {
     QSqlQuery query;
     if(!query.exec("SELECT * FROM " + tables.first())) {
         dataBase.close();
-        assert(false); //TODO: убрать это
+        return false;
     } else {
         while(query.next()) {
             QString rawData = query.value(0).toString();
             QDateTime data = getDataExtracter()->extract(rawData);
             if(!data.isValid()) {
-                assert(false); //TODO: и это
+                return false;
             }
             qint64 parsetDataTime = data.toMSecsSinceEpoch();
 
             bool ok;
             double value = query.value(1).toDouble(&ok);
             if(!ok) {
-                assert(false); //TODO: и это
+                return false;
             }
 
             parsed.push_back({parsetDataTime,

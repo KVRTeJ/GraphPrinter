@@ -9,7 +9,8 @@
 
 class AbstractParser : public IParser {
 public:
-    AbstractParser(const QString& filePath = "") : _filePath(filePath)
+    AbstractParser(const QString& filePath = "", IDataExtracter* extracter = nullptr)
+        : _filePath(filePath), _dataExtracter(extracter)
     {}
     ~AbstractParser() override = default;
 
