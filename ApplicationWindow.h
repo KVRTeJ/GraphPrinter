@@ -13,31 +13,22 @@
 
 #include "DataModel.h"
 
-class SettingsDialog : public QDialog
-{
-    Q_OBJECT
-
-public:
-    SettingsDialog(QWidget *parent = nullptr);
-};
-
 class ApplicationWindow : public QMainWindow {
     Q_OBJECT
 public:
-    ApplicationWindow(QList<GraphData>* data);
+    ApplicationWindow();
 
 private:
     void _setCenterAnchor();
     void _setDefaultViewConfiguration();
 
 private slots:
-    void showSettingsDialog();
     void _showFileDialog();
     void _selectionChangedSlot(const QItemSelection &selected);
 
 private:
-    QFileSystemModel *model;
-    QTableView *tableView;
+    QFileSystemModel *model = nullptr;
+    QTableView *tableView = nullptr;
     QtCharts::QChartView *chartView = nullptr;
 };
 
