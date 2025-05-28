@@ -14,7 +14,7 @@ QT_CHARTS_USE_NAMESPACE
 
 class AbstractChartCreator : public IChartCreator {
 public:
-    AbstractChartCreator() = default;
+    virtual ~AbstractChartCreator() override = default;
 
     QChart* create(const QList<GraphData>& data) override {
         QChart* chart = new QChart();
@@ -48,6 +48,7 @@ protected:
         axisX->setTitleText("Дата");
         chart->addAxis(axisX, Qt::AlignBottom);
         series->attachAxis(axisX);
+        chart->legend()->hide();
 
         QValueAxis* axisY = new QValueAxis();
         axisY->setTitleText("Значение");
