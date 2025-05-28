@@ -1,5 +1,5 @@
-#ifndef LINEPRINTER_H
-#define LINEPRINTER_H
+#ifndef LINECHARTCREATOR_H
+#define LINECHARTCREATOR_H
 
 #include <QtCharts/QChartGlobal>
 
@@ -70,4 +70,4 @@ public:
     }
 };
 
-#endif // LINEPRINTER_H
+#endif // LINECHARTCREATOR_H

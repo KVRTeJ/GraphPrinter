@@ -57,7 +57,7 @@
 #include <QtCharts/QBarCategoryAxis>
 #include <QtCharts/QChartGlobal>
 
-#include "LinePrinter.h"
+#include "LineChartCreator.h"
 
 namespace {
 constexpr int ApplicationWidthDefaultValue = 1222;
