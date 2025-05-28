@@ -13,7 +13,8 @@
 class ApplicationWindow : public QMainWindow, public IChartView {
     Q_OBJECT
 public:
-    static const QStringList filters;
+    static const QStringList FILE_MODEL_FILTERS;
+
 public:
     ApplicationWindow();
 

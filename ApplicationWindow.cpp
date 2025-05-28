@@ -16,7 +16,7 @@
 #include <QtCharts/QChartView>
 #include <QDebug>
 
-static const QStringList FILE_MODEL_FILTERS {"*.json", "*.sqlite"};
+const QStringList ApplicationWindow::FILE_MODEL_FILTERS {"*.json", "*.sqlite"};
 
 namespace {
 constexpr int ApplicationWidthDefaultValue = 1222;
@@ -63,6 +63,7 @@ ApplicationWindow::ApplicationWindow() {
     _tableView = new QTableView;
     _tableView->setModel(_model);
     _tableView->setRootIndex(_model->setRootPath(homePath));
+    QItemSelectionModel *selectionModel = _tableView->selectionModel();
 
     splitter->addWidget(_tableView);
 
@@ -79,12 +80,10 @@ ApplicationWindow::ApplicationWindow() {
 
     setCentralWidget(splitter);
 
-
-    QItemSelectionModel *selectionModel = _tableView->selectionModel();
-
     connect(chooseDirecctoryButton, &QPushButton::clicked, this, &ApplicationWindow::_showFileDialog);
     connect(checkBox, &QCheckBox::toggled, this, &ApplicationWindow::_bwToggled);
     connect(printGraphButton, &QPushButton::clicked, this, &ApplicationWindow::_printButtonClicked);
+
     connect(selectionModel, &QItemSelectionModel::selectionChanged, this, &ApplicationWindow::_selectionChanged);
 }
 
