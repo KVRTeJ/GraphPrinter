@@ -99,13 +99,14 @@ void ApplicationWindow::displayChart(QtCharts::QChart* chart) {
     if(!chart)
         return;
 
+    _chartView->setChart(chart);
+
     if (_chart) {
-        _chartView->setChart(nullptr);
         delete _chart;
+        _chart = nullptr;
     }
 
     _chart = chart;
-    _chartView->setChart(chart);
 
     showStatus("График успешно обновлен");
 }
