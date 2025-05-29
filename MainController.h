@@ -90,11 +90,15 @@ public slots:
             return;
         }
 
+        _view->showStatus("Идет генерация графика. . .");
+
         auto chart = chartCreator->create(_model->getData());
         if(!chart) {
             _view->showError("Ошибка генерации графика. . .");
             return;
         }
+
+        _view->showStatus("Генерация графика прошла успешно!");
 
         _view->displayChart(chart);
     }
