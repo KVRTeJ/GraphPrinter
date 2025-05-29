@@ -52,7 +52,9 @@ ApplicationWindow::ApplicationWindow() {
     toolBar->addWidget(chooseDirecctoryButton);
     toolBar->addWidget(separator);
     toolBar->addWidget(_comboBox);
+    toolBar->addSeparator();
     toolBar->addWidget(checkBox);
+    toolBar->addSeparator();
     toolBar->addWidget(printGraphButton);
 
     QSplitter *splitter = new QSplitter(Qt::Horizontal, this);
