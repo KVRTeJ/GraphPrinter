@@ -11,6 +11,7 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QStatusBar>
+#include <QComboBox>
 
 class ApplicationWindow : public QMainWindow, public IChartView {
     Q_OBJECT
@@ -36,7 +37,7 @@ public:
 signals:
     void fileSelected(const QString& filePath);
 
-    void chartsTypeModified(); //TODO
+    void chartsTypeChanged();
 
     void redisplayChart();
     void chartRectrated();
@@ -45,7 +46,11 @@ signals:
 private slots:
     void _showFileDialog();
     void _selectionChanged(const QItemSelection &selected);
+    void _chartTypeChanged(int index);
     void _bwToggled(bool checked) {
+        if(!_chartView && !_chart) {
+            return;
+        }
         if(!checked)
             emit redisplayChart();
 
@@ -78,6 +83,8 @@ private:
     QTableView *_tableView = nullptr;
     QtCharts::QChartView *_chartView = nullptr;
     QtCharts::QChart* _chart = nullptr;
+
+    QComboBox* _comboBox = nullptr;
 };
 
 #endif // APPLICATIONWINDOW_H

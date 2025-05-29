@@ -24,8 +24,6 @@ static IOCContainer gContainer;
 class DIConfiguration {
 public:
     static void configure() {
-        gContainer.RegisterInstance<DataModel, DataModel>();
-
         gContainer.RegisterInstance<IParser, JsonParser>();
 
         gContainer.RegisterInstance<IChartCreator, LineChartCreator>();
@@ -40,9 +38,11 @@ public:
 
     static void switchToLineChart() {
         gContainer.RegisterInstance<IChartCreator, LineChartCreator>();
+        qDebug() << "\tline";
     }
     static void switchToAreaChart() {
         gContainer.RegisterInstance<IChartCreator, AreaChartCreator>();
+        qDebug() << "\tarea";
     }
 
 };

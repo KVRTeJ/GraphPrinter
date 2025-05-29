@@ -1,5 +1,7 @@
 #include "ApplicationWindow.h"
 
+#include "DependencyInversion.h"
+
 #include <QScreen>
 #include <QGuiApplication>
 #include <QComboBox>
@@ -35,8 +37,8 @@ ApplicationWindow::ApplicationWindow() {
 
     statusBar()->showMessage("Ready", 2000);
 
-    QComboBox *comboBox = new QComboBox(this);
-    comboBox->addItems({"Area chart",
+    _comboBox = new QComboBox(this);
+    _comboBox->addItems({"Area chart",
                         "Line chart",
                         "Spline chart",
                         "Scatter chart"});
@@ -49,7 +51,7 @@ ApplicationWindow::ApplicationWindow() {
 
     toolBar->addWidget(chooseDirecctoryButton);
     toolBar->addWidget(separator);
-    toolBar->addWidget(comboBox);
+    toolBar->addWidget(_comboBox);
     toolBar->addWidget(checkBox);
     toolBar->addWidget(printGraphButton);
 
@@ -93,6 +95,9 @@ ApplicationWindow::ApplicationWindow() {
 
     connect(selectionModel, &QItemSelectionModel::selectionChanged,
             this, &ApplicationWindow::_selectionChanged);
+
+    connect(_comboBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &ApplicationWindow::_chartTypeChanged);
 }
 
 void ApplicationWindow::displayChart(QtCharts::QChart* chart) {
@@ -102,6 +107,7 @@ void ApplicationWindow::displayChart(QtCharts::QChart* chart) {
     _chartView->setChart(chart);
 
     if (_chart) {
+        qDebug() << "deleted";
         delete _chart;
         _chart = nullptr;
     }
@@ -171,4 +177,22 @@ void ApplicationWindow::_selectionChanged(const QItemSelection &selected) {
     if(filePath != "") {
         emit fileSelected(filePath);
     }
+}
+
+void ApplicationWindow::_chartTypeChanged(int index) {
+    QString chartType = _comboBox->itemText(index);
+    if (chartType == "Line chart") {
+        DIConfiguration::switchToLineChart();
+    } else if (chartType == "Area chart") {
+        DIConfiguration::switchToAreaChart();
+    } else if (chartType == "Spline chart") {
+        // DIConfiguration::switchToSplineChart();
+    } else if (chartType == "Scatter chart") {
+        // DIConfiguration::switchToScatterChart();
+    } else {
+        qDebug() << "Unknown chart type selected";
+        return;
+    }
+
+    emit chartsTypeChanged();
 }

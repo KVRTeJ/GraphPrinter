@@ -29,6 +29,13 @@ public:
 
 public slots:
     void onFileSelected(const QString& filePath) {
+        if(!_view) {
+            throw std::runtime_error("Отсутствует главное окно");
+        }
+        if(!_model) {
+            throw std::runtime_error("Отсутствует модель данных!");
+        }
+
         _view->showStatus("Загрузка файла. . . " + filePath);
 
         QFileInfo fileInfo(filePath);
@@ -41,13 +48,14 @@ public slots:
 
         auto parser = gContainer.GetObject<IParser>();
         if(!parser) {
-            _view->showError("Ошибка подключение обработчика данных. . .");
+            _view->showError("Ошибка подключения обработчика данных. . .");
+            return;
         }
 
         parser->setFilePath(filePath);
         if(!parser->parse()) {
-            _view->showError("Ошибка обработки файла." + filePath);
-            _view->cleanChart();
+            _view->showError("Ошибка обработки файла: " + filePath);
+            return;
         }
 
         _model->setData(parser->getData());
@@ -64,14 +72,26 @@ public slots:
     }
 
     void onDataChanged() {
+        if(!_view) {
+            throw std::runtime_error("Отсутствует главное окно");
+        }
+        if(!_model) {
+            throw std::runtime_error("Отсутствует модель данных!");
+        }
+
         auto chartCreator = gContainer.GetObject<IChartCreator>();
         if (!chartCreator) {
             throw std::runtime_error("Отсутствует генератор графиков");
+        }
+        if (_model->getData().empty()) {
+            qDebug() << "empty data";
+            return;
         }
 
         auto chart = chartCreator->create(_model->getData());
         if(!chart) {
             _view->showError("Ошибка генерации графика. . .");
+            return;
         }
 
         _view->displayChart(chart);

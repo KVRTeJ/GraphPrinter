@@ -27,6 +27,12 @@ int main(int argc, char *argv[]) {
     QObject::connect(&mainWindow, &ApplicationWindow::fileSelected,
                      controller, &MainController::onFileSelected);
 
+    QObject::connect(&mainWindow, &ApplicationWindow::chartsTypeChanged,
+                     controller, &MainController::onDataChanged);
+
+    QObject::connect(&mainWindow, &ApplicationWindow::redisplayChart,
+                     controller, &MainController::onDataChanged);
+
     QObject::connect(&dataModel, &DataModel::dataChanged,
                      controller, &MainController::onDataChanged);
 
