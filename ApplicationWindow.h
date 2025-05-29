@@ -20,6 +20,7 @@ public:
 
 public:
     ApplicationWindow();
+    ~ApplicationWindow();
 
     void displayChart(QtCharts::QChart* chart) override;
     void cleanChart() override;
@@ -60,8 +61,12 @@ private slots:
             yAxis->setShadesVisible(false);
         }
     }
-    void _printButtonClicked()
-    {
+    void _printButtonClicked() {
+        if(_chart->series().isEmpty()) {
+            showError("Нельзя напечатать пустой график. . .");
+            return;
+        }
+
         QString filePath = QFileDialog::getSaveFileName(this, "Сохранить график", "", "PDF (*.pdf)");
         if (!filePath.isEmpty())
         {

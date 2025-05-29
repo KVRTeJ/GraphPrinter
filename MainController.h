@@ -48,13 +48,15 @@ public slots:
 
         auto parser = gContainer.GetObject<IParser>();
         if(!parser) {
-            _view->showError("Ошибка подключения обработчика данных. . .");
+            _view->showError("Не подключен обработчик данных. . .");
             return;
         }
 
         parser->setFilePath(filePath);
         if(!parser->parse()) {
-            _view->showError("Ошибка обработки файла: " + filePath);
+            _model->setData({});
+            _view->showError("Не удалось обработать файл: " + filePath);
+            _view->cleanChart();
             return;
         }
 
@@ -84,6 +86,7 @@ public slots:
             throw std::runtime_error("Отсутствует генератор графиков");
         }
         if (_model->getData().empty()) {
+            _view->showError("Нельзя напечатать график, если данных нет. . .");
             return;
         }
 

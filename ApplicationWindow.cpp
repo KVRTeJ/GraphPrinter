@@ -74,7 +74,8 @@ ApplicationWindow::ApplicationWindow() {
 
     splitter->addWidget(_tableView);
 
-    _chartView = new QtCharts::QChartView();
+    _chart = new QtCharts::QChart();
+    _chartView = new QtCharts::QChartView(_chart, this);
 
     splitter->addWidget(_chartView);
 
@@ -102,6 +103,10 @@ ApplicationWindow::ApplicationWindow() {
             this, &ApplicationWindow::_chartTypeChanged);
 }
 
+ApplicationWindow::~ApplicationWindow() {
+    delete _chart;
+}
+
 void ApplicationWindow::displayChart(QtCharts::QChart* chart) {
     if(!chart)
         return;
@@ -122,11 +127,10 @@ void ApplicationWindow::cleanChart() {
     if (!_chart)
         return;
 
-    _chartView->setChart(nullptr);
+    QtCharts::QChart* empty = new QtCharts::QChart();
+    _chartView->setChart(empty);
     delete _chart;
-    _chart = nullptr;
-
-    showStatus("График очищен");
+    _chart = empty;
 }
 
 void ApplicationWindow::_showFileDialog() {

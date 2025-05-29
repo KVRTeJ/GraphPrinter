@@ -24,7 +24,7 @@ public:
 
         QAbstractSeries* series = createSeries(data);
         if (!series) {
-            assert(false); //куда без них))
+            throw std::runtime_error("Cant create series");
             return chart;
         }
 
