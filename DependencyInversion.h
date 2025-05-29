@@ -19,7 +19,7 @@
 #include <QObject>
 #include <QtCore/qdebug.h>
 
-static IOCContainer gContainer;
+extern IOCContainer gContainer;
 
 class DIConfiguration {
 public:
@@ -38,11 +38,19 @@ public:
 
     static void switchToLineChart() {
         gContainer.RegisterInstance<IChartCreator, LineChartCreator>();
-        qDebug() << "\tline";
+        qDebug() << "Switched to LineChartCreator";
     }
     static void switchToAreaChart() {
         gContainer.RegisterInstance<IChartCreator, AreaChartCreator>();
-        qDebug() << "\tarea";
+        qDebug() << "Switched to AreaChartCreator";
+    }
+    static void switchToSplineChart() {
+        gContainer.RegisterInstance<IChartCreator, SplineChartCreator>();
+        qDebug() << "Switched to SplineChartCreator";
+    }
+    static void switchToScatterChart() {
+        gContainer.RegisterInstance<IChartCreator, ScatterChartCreator>();
+        qDebug() << "Switched to ScatterChartCreator";
     }
 
 };

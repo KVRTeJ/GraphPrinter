@@ -38,8 +38,8 @@ ApplicationWindow::ApplicationWindow() {
     statusBar()->showMessage("Ready", 2000);
 
     _comboBox = new QComboBox(this);
-    _comboBox->addItems({"Area chart",
-                        "Line chart",
+    _comboBox->addItems({"Line chart",
+                        "Area chart",
                         "Spline chart",
                         "Scatter chart"});
 
@@ -107,7 +107,6 @@ void ApplicationWindow::displayChart(QtCharts::QChart* chart) {
     _chartView->setChart(chart);
 
     if (_chart) {
-        qDebug() << "deleted";
         delete _chart;
         _chart = nullptr;
     }
@@ -186,9 +185,9 @@ void ApplicationWindow::_chartTypeChanged(int index) {
     } else if (chartType == "Area chart") {
         DIConfiguration::switchToAreaChart();
     } else if (chartType == "Spline chart") {
-        // DIConfiguration::switchToSplineChart();
+        DIConfiguration::switchToSplineChart();
     } else if (chartType == "Scatter chart") {
-        // DIConfiguration::switchToScatterChart();
+        DIConfiguration::switchToScatterChart();
     } else {
         qDebug() << "Unknown chart type selected";
         return;

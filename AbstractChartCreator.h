@@ -10,6 +10,8 @@
 #include <QtCharts/QBarCategoryAxis>
 #include <QDateTime>
 
+#include <QDebug>
+
 QT_CHARTS_USE_NAMESPACE
 
 class AbstractChartCreator : public IChartCreator {

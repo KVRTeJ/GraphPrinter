@@ -11,6 +11,7 @@ CONFIG += c++17
 SOURCES += \
     ApplicationWindow.cpp \
     DataExtract.cpp \
+    DependencyInversion.cpp \
     IOC_Container.cpp \
     JsonParser.cpp \
     MainController.cpp \

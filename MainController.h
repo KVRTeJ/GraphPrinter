@@ -84,7 +84,6 @@ public slots:
             throw std::runtime_error("Отсутствует генератор графиков");
         }
         if (_model->getData().empty()) {
-            qDebug() << "empty data";
             return;
         }
 

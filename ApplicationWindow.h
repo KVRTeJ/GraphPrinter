@@ -36,12 +36,8 @@ public:
 
 signals:
     void fileSelected(const QString& filePath);
-
     void chartsTypeChanged();
-
     void redisplayChart();
-    void chartRectrated();
-    void chartCleaned();
 
 private slots:
     void _showFileDialog();
@@ -51,8 +47,10 @@ private slots:
         if(!_chartView && !_chart) {
             return;
         }
-        if(!checked)
+        if(!checked) {
             emit redisplayChart();
+            return;
+        }
 
         _chartView->chart()->setTheme(QtCharts::QChart::ChartThemeHighContrast);
         if (auto *xAxis = _chartView->chart()->axes(Qt::Horizontal).value(0)) {
